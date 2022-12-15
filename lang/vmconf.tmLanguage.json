@@ -1,0 +1,38 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "VirtualMetal Configuration",
+    "scopeName": "source.vmconf",
+    "patterns": [
+        { "include": "#comment" },
+        { "include": "#invalid-ws" },
+        { "include": "#include" },
+        { "include": "#configuration" },
+        { "include": "#invalid" }
+    ],
+    "repository": {
+        "comment": {
+            "match": "^#.*",
+            "name": "comment.line"
+        },
+        "include": {
+            "match": "^[^=]*[/\\\\].*",
+            "name": "string"
+        },
+        "configuration": {
+            "match": "^([^=\\s]+)(=)(.*)",
+            "captures": {
+                "1": { "name": "variable" },
+                "2": { "name": "keyword.operator" },
+                "3": { "name": "string" }
+            }
+        },
+        "invalid-ws": {
+            "match": "^\\s.*",
+            "name": "invalid.illegal"
+        },
+        "invalid": {
+            "match": "^.*",
+            "name": "invalid.illegal"
+        }
+    }
+}

@@ -18,16 +18,10 @@
     "ms-vscode.cpptools"
   ],
   "activationEvents": [
-    "onCommand:vmtools.helloWorld"
+    "onDebug"
   ],
   "main": "./dist/extension.js",
   "contributes": {
-    "commands": [
-      {
-        "command": "vmtools.helloWorld",
-        "title": "Hello World"
-      }
-    ],
     "languages": [
       {
         "id": "vmconf",
@@ -45,6 +39,400 @@
         "language": "vmconf",
         "scopeName": "source.vmconf",
         "path": "./lang/vmconf.tmLanguage.json"
+      }
+    ],
+    "debuggers": [
+      {
+        "type": "vmdbg",
+        "label": "VirtualMetal Debug",
+        "configurationAttributes": {
+          "launch": {
+            "type": "object",
+            "required": [
+              "vmconf"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "default": "vmdbg"
+              },
+              "vmconf": {
+                "type": "string",
+                "description": "Full path to VirtualMetal configuration.",
+                "default": "${workspaceFolder}/<file.vmconf>"
+              },
+              "program": {
+                "type": "string",
+                "description": "Full path to executable to read symbols from.",
+                "default": "${workspaceFolder}/<executable>"
+              },
+              "cwd": {
+                "type": "string",
+                "default": "."
+              },
+              "stopAtConnect": {
+                "type": "boolean",
+                "default": false
+              },
+              "setupCommands": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "default": {},
+                  "properties": {
+                    "text": {
+                      "type": "string",
+                      "default": ""
+                    },
+                    "description": {
+                      "type": "string",
+                      "default": ""
+                    },
+                    "ignoreFailures": {
+                      "type": "boolean",
+                      "default": false
+                    }
+                  }
+                },
+                "default": []
+              },
+              "sourceFileMap": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "default": {
+                      "<source-path>": "<target-path>"
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "default": {
+                      "<source-path>": {
+                        "editorPath": "",
+                        "useForBreakpoints": true
+                      }
+                    },
+                    "properties": {
+                      "<source-path>": {
+                        "type": "object",
+                        "default": {
+                          "editorPath": "",
+                          "useForBreakpoints": true
+                        },
+                        "properties": {
+                          "editorPath": {
+                            "type": "string",
+                            "default": ""
+                          },
+                          "useForBreakpoints": {
+                            "type": "boolean",
+                            "default": true
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "MIMode": {
+                "type": "string",
+                "default": "gdb"
+              },
+              "miDebuggerPath": {
+                "type": "string",
+                "default": "gdb"
+              },
+              "debugServerPath": {
+                "type": "string",
+                "default": "vm"
+              },
+              "logging": {
+                "type": "object",
+                "default": {},
+                "properties": {
+                  "exceptions": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "moduleLoad": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "programOutput": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "engineLogging": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "verbose",
+                          "warning",
+                          "error",
+                          "none"
+                        ],
+                        "default": "none"
+                      },
+                      {
+                        "type": "boolean",
+                        "default": false
+                      }
+                    ]
+                  },
+                  "trace": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "traceResponse": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "natvisDiagnostics": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "verbose",
+                          "warning",
+                          "error",
+                          "none"
+                        ],
+                        "default": "none"
+                      },
+                      {
+                        "type": "boolean",
+                        "default": false
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "attach": {
+            "type": "object",
+            "default": {},
+            "required": [
+              "program",
+              "miDebuggerServerAddress"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "default": "vmdbg"
+              },
+              "program": {
+                "type": "string",
+                "description": "Full path to executable to read symbols from.",
+                "default": "${workspaceFolder}/<executable>"
+              },
+              "miDebuggerServerAddress": {
+                "type": "string",
+                "default": "localhost:30317"
+              },
+              "stopAtConnect": {
+                "type": "boolean",
+                "default": false
+              },
+              "setupCommands": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "default": {},
+                  "properties": {
+                    "text": {
+                      "type": "string",
+                      "default": ""
+                    },
+                    "description": {
+                      "type": "string",
+                      "default": ""
+                    },
+                    "ignoreFailures": {
+                      "type": "boolean",
+                      "default": false
+                    }
+                  }
+                },
+                "default": []
+              },
+              "sourceFileMap": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "default": {
+                      "<source-path>": "<target-path>"
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "default": {
+                      "<source-path>": {
+                        "editorPath": "",
+                        "useForBreakpoints": true
+                      }
+                    },
+                    "properties": {
+                      "<source-path>": {
+                        "type": "object",
+                        "default": {
+                          "editorPath": "",
+                          "useForBreakpoints": true
+                        },
+                        "properties": {
+                          "editorPath": {
+                            "type": "string",
+                            "default": ""
+                          },
+                          "useForBreakpoints": {
+                            "type": "boolean",
+                            "default": true
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "MIMode": {
+                "type": "string",
+                "default": "gdb"
+              },
+              "miDebuggerPath": {
+                "type": "string",
+                "default": "gdb"
+              },
+              "logging": {
+                "type": "object",
+                "default": {},
+                "properties": {
+                  "exceptions": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "moduleLoad": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "programOutput": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "engineLogging": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "verbose",
+                          "warning",
+                          "error",
+                          "none"
+                        ],
+                        "default": "none"
+                      },
+                      {
+                        "type": "boolean",
+                        "default": false
+                      }
+                    ]
+                  },
+                  "trace": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "traceResponse": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "natvisDiagnostics": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "verbose",
+                          "warning",
+                          "error",
+                          "none"
+                        ],
+                        "default": "none"
+                      },
+                      {
+                        "type": "boolean",
+                        "default": false
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "initialConfigurations": [
+          {
+            "name": "VirtualMetal Launch",
+            "type": "vmdbg",
+            "request": "launch",
+            "vmconf": "${workspaceFolder}/<file.vmconf>",
+            "setupCommands": [
+              {
+                "description": "Enable pretty-printing",
+                "text": "-enable-pretty-printing",
+                "ignoreFailures": true
+              },
+              {
+                "description": "Set disassembly flavor to Intel",
+                "text": "-gdb-set disassembly-flavor intel",
+                "ignoreFailures": true
+              }
+            ]
+          }
+        ],
+        "configurationSnippets": [
+          {
+            "label": "VirtualMetal Launch",
+            "body": {
+              "name": "VirtualMetal Launch",
+              "type": "vmdbg",
+              "request": "launch",
+              "vmconf": "^\"\\${workspaceFolder}/<file.vmconf>\"",
+              "setupCommands": [
+                {
+                  "description": "Enable pretty-printing",
+                  "text": "-enable-pretty-printing",
+                  "ignoreFailures": true
+                },
+                {
+                  "description": "Set disassembly flavor to Intel",
+                  "text": "-gdb-set disassembly-flavor intel",
+                  "ignoreFailures": true
+                }
+              ]
+            }
+          },
+          {
+            "label": "VirtualMetal Attach",
+            "body": {
+              "name": "VirtualMetal Attach",
+              "type": "vmdbg",
+              "request": "attach",
+              "program": "^\"\\${workspaceFolder}/<executable>\"",
+              "miDebuggerServerAddress": "localhost:30317",
+              "setupCommands": [
+                {
+                  "description": "Enable pretty-printing",
+                  "text": "-enable-pretty-printing",
+                  "ignoreFailures": true
+                },
+                {
+                  "description": "Set disassembly flavor to Intel",
+                  "text": "-gdb-set disassembly-flavor intel",
+                  "ignoreFailures": true
+                }
+              ]
+            }
+          }
+        ]
       }
     ]
   },

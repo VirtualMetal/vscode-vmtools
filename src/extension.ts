@@ -55,6 +55,9 @@ class DebugConfigurationProvider implements vscode.DebugConfigurationProvider
                 config.MIMode = "gdb";
             if (!config.miDebuggerPath)
                 config.miDebuggerPath = "gdb";
+            config.miDebuggerArgs = config.MIMode === "gdb" ?
+                `-cd="${path.dirname(config.program)}" "${path.basename(config.program)}"` :
+                `"${config.program}"`;
             if (!config.debugServerPath)
                 config.debugServerPath = os.platform() === "win32" ? "vm.exe" : "vm";
 
@@ -70,7 +73,6 @@ class DebugConfigurationProvider implements vscode.DebugConfigurationProvider
                 ...c,
                 "type": "cppdbg",
                 "request": "launch",
-                "miDebuggerArgs": config.program,
                 "debugServerArgs": `-C "${config.cwd}" "${config.vmconf}" debug_host=:${port} debug_break=1`,
                 "filterStderr": true,
                 "serverStarted": "^vm: debug server listening on :",

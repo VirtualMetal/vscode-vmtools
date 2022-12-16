@@ -58,20 +58,27 @@ class DebugConfigurationProvider implements vscode.DebugConfigurationProvider
             if (!config.debugServerPath)
                 config.debugServerPath = os.platform() === "win32" ? "vm.exe" : "vm";
 
+            /*
+             * Node.js does not(?) have an easy way to bind to port 0 (without listening)
+             * and get a free port from the OS. So instead compute a random value between
+             * 28022 = 'm'*256 + 'v' and 30317 = 'v'*256 + 'm' and hope for the best.
+             */
+            const port = Math.floor(Math.random() * (30317 - 28022 + 1) + 28022);
+
             let { vmconf, ...c } = config   // exclude extraneous fields from config
             c = {
                 ...c,
                 "type": "cppdbg",
                 "request": "launch",
                 "miDebuggerArgs": config.program,
-                "debugServerArgs": `-C "${config.cwd}" "${config.vmconf}" debug_host=:30317 debug_break=1`,
+                "debugServerArgs": `-C "${config.cwd}" "${config.vmconf}" debug_host=:${port} debug_break=1`,
                 "filterStderr": true,
                 "serverStarted": "^vm: debug server listening on :",
                 "targetArchitecture": os.arch(),
                 "customLaunchSetupCommands": [
                     {
                         "description": "Connect to remote",
-                        "text": "-target-select remote localhost:30317",
+                        "text": `-target-select remote localhost:${port}`,
                         "ignoreFailures": false
                     }
                 ],

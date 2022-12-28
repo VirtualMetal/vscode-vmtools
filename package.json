@@ -8,7 +8,7 @@
     "type": "git",
     "url": "https://github.com/VirtualMetal/vscode-vmtools.git"
   },
-  "version": "0.3.0",
+  "version": "0.4.0",
   "engines": {
     "vscode": "^1.67.0"
   },
@@ -376,16 +376,9 @@
             "request": "launch",
             "vmconf": "${workspaceFolder}/<file.vmconf>",
             "setupCommands": [
-              {
-                "description": "Enable pretty-printing",
-                "text": "-enable-pretty-printing",
-                "ignoreFailures": true
-              },
-              {
-                "description": "Set disassembly flavor to Intel",
-                "text": "-gdb-set disassembly-flavor intel",
-                "ignoreFailures": true
-              }
+              { "text": "-enable-pretty-printing" },
+              { "text": "-gdb-set disassembly-flavor intel" },
+              { "text": "-break-insert main" }
             ]
           }
         ],
@@ -398,16 +391,9 @@
               "request": "launch",
               "vmconf": "^\"\\${workspaceFolder}/<file.vmconf>\"",
               "setupCommands": [
-                {
-                  "description": "Enable pretty-printing",
-                  "text": "-enable-pretty-printing",
-                  "ignoreFailures": true
-                },
-                {
-                  "description": "Set disassembly flavor to Intel",
-                  "text": "-gdb-set disassembly-flavor intel",
-                  "ignoreFailures": true
-                }
+                { "text": "-enable-pretty-printing" },
+                { "text": "-gdb-set disassembly-flavor intel" },
+                { "text": "-break-insert main" }
               ]
             }
           },
@@ -420,16 +406,9 @@
               "program": "^\"\\${workspaceFolder}/<executable>\"",
               "miDebuggerServerAddress": "localhost:30317",
               "setupCommands": [
-                {
-                  "description": "Enable pretty-printing",
-                  "text": "-enable-pretty-printing",
-                  "ignoreFailures": true
-                },
-                {
-                  "description": "Set disassembly flavor to Intel",
-                  "text": "-gdb-set disassembly-flavor intel",
-                  "ignoreFailures": true
-                }
+                { "text": "-enable-pretty-printing" },
+                { "text": "-gdb-set disassembly-flavor intel" },
+                { "text": "-break-insert main" }
               ]
             }
           }

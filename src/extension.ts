@@ -43,7 +43,6 @@ class DebugConfigurationProvider implements vscode.DebugConfigurationProvider
                         const parts = line.split(",");
                         if (parts.length === 3)
                             config.program = path.resolve(config.cwd, parts[2]);
-                        break;
                     }
             }
 

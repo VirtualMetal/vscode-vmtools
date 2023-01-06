@@ -1,0 +1,24 @@
+name: build
+
+on:
+  push:
+    branches:
+      # build on all branches except master
+      - '*'
+      - '!master'
+    tags:
+      # build on release tags only
+      - 'v[0-9]+*'
+  workflow_dispatch:
+
+jobs:
+
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm ci
+      - run: npm run package

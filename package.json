@@ -418,21 +418,12 @@
   "scripts": {
     "vscode:prepublish": "npm run compile && python get-assets.py",
     "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
-    "lint": "eslint src --ext ts",
-    "test": "node ./dist/test/runTest.js"
+    "package": "vsce package"
   },
   "devDependencies": {
-    "@types/vscode": "^1.67.0",
-    "@types/glob": "^8.0.0",
-    "@types/mocha": "^10.0.1",
     "@types/node": "16.x",
-    "@typescript-eslint/eslint-plugin": "^5.45.0",
-    "@typescript-eslint/parser": "^5.45.0",
-    "eslint": "^8.28.0",
-    "glob": "^8.0.3",
-    "mocha": "^10.1.0",
+    "@types/vscode": "^1.67.0",
+    "@vscode/vsce": "^2.16.0",
     "typescript": "^4.9.3"
   }
 }

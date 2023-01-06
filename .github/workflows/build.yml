@@ -3,11 +3,8 @@ name: build
 on:
   push:
     branches:
-      # build on all branches except master
       - '*'
-      - '!master'
     tags:
-      # build on release tags only
       - 'v[0-9]+*'
   workflow_dispatch:
 
@@ -22,3 +19,13 @@ jobs:
           node-version: 16
       - run: npm ci
       - run: npm run package
+      - uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          name: ${{ github.ref_name }}
+          body: |
+            You can install this extension in one of the following ways:
+            - Use the "Install from VSIX" command in the Extensions view <kbd>&#8943;</kbd> dropdown menu.
+            - Use the "Extensions: Install from VSIX" command from the Command Palette.
+            - Run the command `code --install-extension vmtools-x.y.z.vsix` from the command line.
+          files: vmtools-*.vsix

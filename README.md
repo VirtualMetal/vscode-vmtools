@@ -1,4 +1,4 @@
-# VirtualMetal Development Tools
+# VirtualMetal for Visual Studio Code
 
 This extension adds VirtualMetal configuration and debugging support to Visual Studio Code.
 

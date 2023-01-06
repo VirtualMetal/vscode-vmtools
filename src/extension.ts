@@ -9,8 +9,10 @@ import * as os from "os";
 import * as path from "path";
 import * as vscode from "vscode";
 
+let extensionContext: vscode.ExtensionContext;
 export function activate(context: vscode.ExtensionContext)
 {
+    extensionContext = context;
     context.subscriptions.push(
         vscode.debug.registerDebugConfigurationProvider("vmdbg", new DebugConfigurationProvider()));
 }
@@ -53,7 +55,20 @@ class DebugConfigurationProvider implements vscode.DebugConfigurationProvider
             if (!config.MIMode)
                 config.MIMode = "gdb";
             if (!config.miDebuggerPath)
-                config.miDebuggerPath = "gdb";
+                switch (os.arch() + "-" + os.platform())
+                {
+                case "x64-win32":
+                    config.miDebuggerPath = extensionContext.asAbsolutePath(
+                        "dist/assets/opt/VirtualMetal/vmtools/host.x86_64-mingw64/bin/x86_64-elf-gdb.exe");
+                    break;
+                case "x64-linux":
+                    config.miDebuggerPath = extensionContext.asAbsolutePath(
+                        "dist/assets/opt/VirtualMetal/vmtools/host.x86_64-linux-gnu/bin/x86_64-elf-gdb");
+                    break;
+                default:
+                    config.miDebuggerPath = "gdb";
+                    break;
+                }
             config.miDebuggerArgs = config.MIMode === "gdb" ?
                 `-cd="${path.dirname(config.program)}" "${path.basename(config.program)}"` :
                 `"${config.program}"`;

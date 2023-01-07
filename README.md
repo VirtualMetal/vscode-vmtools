@@ -6,4 +6,4 @@ This extension adds VirtualMetal configuration and debugging support to Visual S
 
 - Syntax highlighting for VirtualMetal configuration files (`.vmconf`).
 
-- Debugging of VirtualMetal instances (requires GDB installation).
+- Debugging of VirtualMetal instances.

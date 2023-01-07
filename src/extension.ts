@@ -101,10 +101,10 @@ class DebugConfigurationProvider implements vscode.DebugConfigurationProvider
                 ...c,
                 "type": "cppdbg",
                 "request": "launch",
+                "targetArchitecture": os.arch(),
                 "debugServerArgs": `-C "${config.cwd}" "${config.vmconf}" debug_host=:${port} debug_break=1`,
                 "filterStderr": true,
                 "serverStarted": "^vm: debug server listening on :",
-                "targetArchitecture": os.arch(),
                 "customLaunchSetupCommands": [
                     {
                         "description": "Connect to remote",
@@ -129,6 +129,7 @@ class DebugConfigurationProvider implements vscode.DebugConfigurationProvider
                 ...config,
                 "type": "cppdbg",
                 "request": "launch",
+                "targetArchitecture": os.arch(),
             };
             return c;
         }

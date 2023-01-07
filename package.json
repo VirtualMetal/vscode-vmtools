@@ -8,7 +8,7 @@
     "type": "git",
     "url": "https://github.com/VirtualMetal/vscode-vmtools.git"
   },
-  "version": "0.7.0",
+  "version": "0.8.0",
   "engines": {
     "vscode": "^1.67.0"
   },
@@ -23,6 +23,21 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
+    "commands": [
+      {
+        "category": "Debug",
+        "title": "Reload symbols",
+        "command": "vmtools.reload_symbols"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "vmtools.reload_symbols",
+          "when": "inDebugMode && debugType == 'cppdbg'"
+        }
+      ]
+    },
     "languages": [
       {
         "id": "vmconf",
@@ -142,6 +157,10 @@
               "miDebuggerPath": {
                 "type": "string",
                 "default": "gdb"
+              },
+              "miDebuggerArgs": {
+                "type": "string",
+                "default": ""
               },
               "debugServerPath": {
                 "type": "string",
@@ -418,6 +437,7 @@
   "scripts": {
     "vscode:prepublish": "npm run compile && python get-assets.py",
     "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
     "package": "vsce package"
   },
   "devDependencies": {

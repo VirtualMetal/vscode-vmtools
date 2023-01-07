@@ -3,7 +3,6 @@
 .vscode/**
 src/**
 **/tsconfig.json
-**/.eslintrc.json
 **/*.map
 **/*.ts
 *.py

@@ -13,6 +13,28 @@ let extensionContext: vscode.ExtensionContext;
 export function activate(context: vscode.ExtensionContext)
 {
     extensionContext = context;
+
+    context.subscriptions.push(
+        vscode.commands.registerCommand("vmtools.reload_symbols", async () =>
+        {
+            if (vscode.debug.activeDebugSession &&
+                vscode.debug.activeDebugSession.configuration.type === "cppdbg" &&
+                vscode.debug.activeDebugSession.configuration.program)
+            {
+                const args = {
+                    expression: "-exec -file-symbol-file \"" +
+                        vscode.debug.activeDebugSession.configuration.program.replace(/\\/g, "/") +
+                        "\"",
+                    context: "repl",
+                };
+                const ret = await vscode.debug.activeDebugSession.customRequest("evaluate", args);
+                if (ret.result.startsWith("result-class: done"))
+                    vscode.window.showInformationMessage("Symbols reloaded");
+                else
+                    vscode.window.showErrorMessage("Cannot reload symbols: " + ret.result);
+            }
+        }));
+
     context.subscriptions.push(
         vscode.debug.registerDebugConfigurationProvider("vmdbg", new DebugConfigurationProvider()));
 }
@@ -34,7 +56,15 @@ class DebugConfigurationProvider implements vscode.DebugConfigurationProvider
                 return null;
 
             if (!config.cwd)
+            {
+                config.vmconf = path.resolve(folder ? folder.uri.fsPath : ".", config.vmconf)
                 config.cwd = path.dirname(config.vmconf)
+            }
+            else
+            {
+                config.cwd = path.resolve(folder ? folder.uri.fsPath : ".", config.cwd)
+                config.vmconf = path.resolve(config.cwd, config.vmconf)
+            }
 
             if (!config.program)
             {
@@ -47,6 +77,8 @@ class DebugConfigurationProvider implements vscode.DebugConfigurationProvider
                             config.program = path.resolve(config.cwd, parts[2]);
                     }
             }
+            else
+                config.program = path.resolve(config.cwd, config.program)
 
             config.vmconf = path.relative(config.cwd, config.vmconf)
             if (!config.vmconf.includes(path.sep))
@@ -69,9 +101,8 @@ class DebugConfigurationProvider implements vscode.DebugConfigurationProvider
                     config.miDebuggerPath = "gdb";
                     break;
                 }
-            config.miDebuggerArgs = config.MIMode === "gdb" ?
-                `-cd="${path.dirname(config.program)}" "${path.basename(config.program)}"` :
-                `"${config.program}"`;
+            if (!config.miDebuggerArgs)
+                config.miDebuggerArgs = `"${config.program}"`;
             if (!config.debugServerPath)
                 config.debugServerPath = os.platform() === "win32" ? "vm.exe" : "vm";
 

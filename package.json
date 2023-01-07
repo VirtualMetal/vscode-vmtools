@@ -8,7 +8,7 @@
     "type": "git",
     "url": "https://github.com/VirtualMetal/vscode-vmtools.git"
   },
-  "version": "0.8.0",
+  "version": "0.9.0",
   "engines": {
     "vscode": "^1.67.0"
   },
@@ -322,6 +322,10 @@
               "miDebuggerPath": {
                 "type": "string",
                 "default": "gdb"
+              },
+              "miDebuggerArgs": {
+                "type": "string",
+                "default": ""
               },
               "logging": {
                 "type": "object",

@@ -84,25 +84,8 @@ class DebugConfigurationProvider implements vscode.DebugConfigurationProvider
             if (!config.vmconf.includes(path.sep))
                 config.vmconf = "./" + config.vmconf;
 
-            if (!config.MIMode)
-                config.MIMode = "gdb";
-            if (!config.miDebuggerPath)
-                switch (os.arch() + "-" + os.platform())
-                {
-                case "x64-win32":
-                    config.miDebuggerPath = extensionContext.asAbsolutePath(
-                        "dist/assets/opt/VirtualMetal/vmtools/host.x86_64-mingw64/bin/x86_64-elf-gdb.exe");
-                    break;
-                case "x64-linux":
-                    config.miDebuggerPath = extensionContext.asAbsolutePath(
-                        "dist/assets/opt/VirtualMetal/vmtools/host.x86_64-linux-gnu/bin/x86_64-elf-gdb");
-                    break;
-                default:
-                    config.miDebuggerPath = "gdb";
-                    break;
-                }
-            if (!config.miDebuggerArgs)
-                config.miDebuggerArgs = `"${config.program}"`;
+            this.resolveDebugConfigurationForGdb(config);
+
             if (!config.debugServerPath)
                 config.debugServerPath = os.platform() === "win32" ? "vm.exe" : "vm";
 
@@ -134,12 +117,13 @@ class DebugConfigurationProvider implements vscode.DebugConfigurationProvider
         }
         else if (config.request === "attach")
         {
+            if (!config.program)
+                return null;
+
+            config.program = path.resolve(folder ? folder.uri.fsPath : ".", config.program);
             config.cwd = path.dirname(config.program)
 
-            if (!config.MIMode)
-                config.MIMode = "gdb";
-            if (!config.miDebuggerPath)
-                config.miDebuggerPath = "gdb";
+            this.resolveDebugConfigurationForGdb(config);
 
             let c = {
                 ...config,
@@ -148,5 +132,29 @@ class DebugConfigurationProvider implements vscode.DebugConfigurationProvider
             };
             return c;
         }
+    }
+
+    private resolveDebugConfigurationForGdb(
+        config: vscode.DebugConfiguration)
+    {
+        if (!config.MIMode)
+            config.MIMode = "gdb";
+        if (!config.miDebuggerPath)
+            switch (os.arch() + "-" + os.platform())
+            {
+            case "x64-win32":
+                config.miDebuggerPath = extensionContext.asAbsolutePath(
+                    "dist/assets/opt/VirtualMetal/vmtools/host.x86_64-mingw64/bin/x86_64-elf-gdb.exe");
+                break;
+            case "x64-linux":
+                config.miDebuggerPath = extensionContext.asAbsolutePath(
+                    "dist/assets/opt/VirtualMetal/vmtools/host.x86_64-linux-gnu/bin/x86_64-elf-gdb");
+                break;
+            default:
+                config.miDebuggerPath = "gdb";
+                break;
+            }
+        if (!config.miDebuggerArgs)
+            config.miDebuggerArgs = `"${config.program}"`;
     }
 }

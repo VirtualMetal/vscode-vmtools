@@ -156,6 +156,8 @@ class DebugConfigurationProvider implements vscode.DebugConfigurationProvider
                 break;
             }
         if (!config.miDebuggerArgs)
-            config.miDebuggerArgs = `"${config.program}"`;
+            config.miDebuggerArgs = config.MIMode === "gdb" ?
+            `-cd="${path.dirname(config.program)}" "${path.basename(config.program)}"` :
+            `"${config.program}"`;
     }
 }

@@ -80,6 +80,9 @@ class DebugConfigurationProvider implements vscode.DebugConfigurationProvider
             else
                 config.program = path.resolve(config.cwd, config.program)
 
+            if (!config.program)
+                return null;
+
             config.vmconf = path.relative(config.cwd, config.vmconf)
             if (!config.vmconf.includes(path.sep))
                 config.vmconf = "./" + config.vmconf;

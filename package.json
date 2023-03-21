@@ -399,7 +399,6 @@
             "request": "launch",
             "vmconf": "${workspaceFolder}/<file.vmconf>",
             "setupCommands": [
-              { "text": "-enable-pretty-printing" },
               { "text": "-gdb-set disassembly-flavor intel" },
               { "text": "-break-insert main" }
             ]
@@ -414,7 +413,6 @@
               "request": "launch",
               "vmconf": "^\"\\${workspaceFolder}/<file.vmconf>\"",
               "setupCommands": [
-                { "text": "-enable-pretty-printing" },
                 { "text": "-gdb-set disassembly-flavor intel" },
                 { "text": "-break-insert main" }
               ]
@@ -429,7 +427,6 @@
               "program": "^\"\\${workspaceFolder}/<executable>\"",
               "miDebuggerServerAddress": "localhost:30317",
               "setupCommands": [
-                { "text": "-enable-pretty-printing" },
                 { "text": "-gdb-set disassembly-flavor intel" }
               ]
             }

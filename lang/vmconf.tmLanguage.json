@@ -19,7 +19,7 @@
             "name": "string"
         },
         "configuration": {
-            "match": "^([^=\\s]+)(=)(.*)",
+            "match": "^([^=\\s]+)(?:(=)(.*))?",
             "captures": {
                 "1": { "name": "variable" },
                 "2": { "name": "keyword.operator" },

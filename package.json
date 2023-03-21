@@ -74,20 +74,22 @@
               },
               "vmconf": {
                 "type": "string",
-                "description": "Full path to VirtualMetal configuration.",
+                "description": "Path to VirtualMetal configuration.",
                 "default": "${workspaceFolder}/<file.vmconf>"
               },
               "program": {
                 "type": "string",
-                "description": "Full path to executable to read symbols from.",
+                "description": "Path to executable to read debug symbols from.",
                 "default": "${workspaceFolder}/<executable>"
               },
               "cwd": {
                 "type": "string",
+                "description": "Working directory.",
                 "default": "."
               },
               "stopAtConnect": {
                 "type": "boolean",
+                "description": "If true, the debugger should stop after connecting to the target. If false, the debugger will continue after connecting. Defaults to false.",
                 "default": false
               },
               "setupCommands": {
@@ -98,14 +100,17 @@
                   "properties": {
                     "text": {
                       "type": "string",
+                      "description": "The debugger command to execute.",
                       "default": ""
                     },
                     "description": {
                       "type": "string",
+                      "description": "Optional description for the command.",
                       "default": ""
                     },
                     "ignoreFailures": {
                       "type": "boolean",
+                      "description": "If true, failures from the command should be ignored. Default value is false.",
                       "default": false
                     }
                   }
@@ -116,12 +121,14 @@
                 "anyOf": [
                   {
                     "type": "object",
+                    "description": "Optional source file mappings passed to the debug engine. Example: '{ \"/original/source/path\":\"/current/source/path\" }'.",
                     "default": {
                       "<source-path>": "<target-path>"
                     }
                   },
                   {
                     "type": "object",
+                    "description": "Current and compile-time paths to the same source trees. Files found under the EditorPath are mapped to the CompileTimePath path for breakpoint matching and mapped from CompileTimePath to EditorPath when displaying stacktrace locations.",
                     "default": {
                       "<source-path>": {
                         "editorPath": "",
@@ -138,10 +145,12 @@
                         "properties": {
                           "editorPath": {
                             "type": "string",
+                            "description": "The path to the source tree the editor will use.",
                             "default": ""
                           },
                           "useForBreakpoints": {
                             "type": "boolean",
+                            "description": "False if this entry is only used for stack frame location mapping. True if this entry should also be used when specifying breakpoint locations.",
                             "default": true
                           }
                         }
@@ -152,18 +161,22 @@
               },
               "MIMode": {
                 "type": "string",
+                "description": "Indicates the kind of console debugger that will be used via the MI interface. Allowed values are \"gdb\" \"lldb\".",
                 "default": "gdb"
               },
               "miDebuggerPath": {
                 "type": "string",
-                "default": "gdb"
+                "description": "Path to the console debugger. When unspecified the builtin console debugger will be used.",
+                "default": ""
               },
               "miDebuggerArgs": {
                 "type": "string",
+                "description": "Additional arguments for the console debugger.",
                 "default": ""
               },
               "debugServerPath": {
                 "type": "string",
+                "description": "Path to the VirtualMetal debug server.",
                 "default": "vm"
               },
               "logging": {
@@ -244,15 +257,17 @@
               },
               "program": {
                 "type": "string",
-                "description": "Full path to executable to read symbols from.",
+                "description": "Path to executable to read debug symbols from.",
                 "default": "${workspaceFolder}/<executable>"
               },
               "miDebuggerServerAddress": {
                 "type": "string",
+                "description": "Network address of the VirtualMetal debug server (default: localhost:30317).",
                 "default": "localhost:30317"
               },
               "stopAtConnect": {
                 "type": "boolean",
+                "description": "If true, the debugger should stop after connecting to the target. If false, the debugger will continue after connecting. Defaults to false.",
                 "default": false
               },
               "setupCommands": {
@@ -263,14 +278,17 @@
                   "properties": {
                     "text": {
                       "type": "string",
+                      "description": "The debugger command to execute.",
                       "default": ""
                     },
                     "description": {
                       "type": "string",
+                      "description": "Optional description for the command.",
                       "default": ""
                     },
                     "ignoreFailures": {
                       "type": "boolean",
+                      "description": "If true, failures from the command should be ignored. Default value is false.",
                       "default": false
                     }
                   }
@@ -281,12 +299,14 @@
                 "anyOf": [
                   {
                     "type": "object",
+                    "description": "Optional source file mappings passed to the debug engine. Example: '{ \"/original/source/path\":\"/current/source/path\" }'.",
                     "default": {
                       "<source-path>": "<target-path>"
                     }
                   },
                   {
                     "type": "object",
+                    "description": "Current and compile-time paths to the same source trees. Files found under the EditorPath are mapped to the CompileTimePath path for breakpoint matching and mapped from CompileTimePath to EditorPath when displaying stacktrace locations.",
                     "default": {
                       "<source-path>": {
                         "editorPath": "",
@@ -303,10 +323,12 @@
                         "properties": {
                           "editorPath": {
                             "type": "string",
+                            "description": "The path to the source tree the editor will use.",
                             "default": ""
                           },
                           "useForBreakpoints": {
                             "type": "boolean",
+                            "description": "False if this entry is only used for stack frame location mapping. True if this entry should also be used when specifying breakpoint locations.",
                             "default": true
                           }
                         }
@@ -317,14 +339,17 @@
               },
               "MIMode": {
                 "type": "string",
+                "description": "Indicates the kind of console debugger that will be used via the MI interface. Allowed values are \"gdb\" \"lldb\".",
                 "default": "gdb"
               },
               "miDebuggerPath": {
                 "type": "string",
-                "default": "gdb"
+                "description": "Path to the console debugger. When unspecified the builtin console debugger will be used.",
+                "default": ""
               },
               "miDebuggerArgs": {
                 "type": "string",
+                "description": "Additional arguments for the console debugger.",
                 "default": ""
               },
               "logging": {
